@@ -4,6 +4,28 @@
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-10-02
+
+**审计第一批修复：路由安全加固 + 发送路径数据丢失 + fetch 超时**（两轮审计合并后按用户选定范围执行）。
+
+### Security
+
+- **本地源鉴权（CSRF 关闭）**：整条路由前置 `requestAuthorized` —— Host 必须是回环地址（阻断 DNS rebinding），浏览器带 Origin 时必须与 Host 同源（阻断其它页面 `no-cors` 跨站 POST/GET；此前 `text/plain` no-cors POST 可绕过 preflight 写任意绝对路径 `.drops`）;
+- **写入仅收 JSON**：POST 必须 `application/json`（该 Content-Type 强制 preflight,跨站伪造过不去）,否则 415;
+- **写根圈定**：客户端 `workspace` 字段只用于在**已注册工作区根**中选择（等于或位于其中之一才生效）,任意绝对路径不再受信任;未命中回退最新注册根 —— 任意位置种植文件关闭;
+- **`?file=` 收紧**：仅服务注册工作区根内的 `.drops` 图片,响应加 `Cross-Origin-Resource-Policy: same-origin`,其它页面连 `<img>` 内嵌都不再可行;
+- **beacon 日志限额**：超 512KB 截断,跨站灌盘上限受控。
+
+### Fixed
+
+- **发送期间上传在途的文件不再无声缺席**：每次入队（文件/文件夹）纳入统一链,`sendSession` 先有界等待（≤30s）链结算再快照队列;超时则提示「仍有文件在上传」并按当前队列发送（beacon `send-settle-timeout`）;
+- **成功发送不再清空整个队列**：只移除本次快照内的路径（`removeFilesByPaths`）,发送途中用户新加的 chips 留给下一条消息;
+- **所有 fetch 加超时**：beacon 8s / 模态探测 5s / 上传 120s / 剪贴板探测 8s / 位图提取 20s —— host 停滞不再永久挂起发送。
+
+### Added
+
+- `test-route.mjs`：鉴权与 Content-Type 门离线断言（14 例全过）。
+
 ## [0.3.5] - 2026-10-02
 
 **转换路径升级为显式文件引用（@ 语法）**。与 `dsh-file-reference` 的共享 `@file` 语法及 agent 指令（「@ 前缀的 token 是用户显式引用的路径」）对齐,转换后的路径不再以裸字符串送达模型。
