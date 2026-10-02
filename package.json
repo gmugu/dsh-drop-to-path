@@ -1,5 +1,5 @@
 {
-  "name": "@dsh-external/dsh-drop-to-path",
+  "name": "dsh-drop-to-path",
   "description": "Turn dropped or pasted files into workspace file paths for DeepSeek Harness. | 中文：把拖入或粘贴的文件转成工作区文件路径，交给纯文本模型。",
   "version": "0.3.6",
   "private": true,
@@ -46,13 +46,13 @@
     "attachment",
     "vision"
   ],
-  "homepage": "https://github.com/wakeup595626-cmyk/dsh-drop-to-path#readme",
+  "homepage": "https://github.com/gmugu/dsh-drop-to-path#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wakeup595626-cmyk/dsh-drop-to-path.git"
+    "url": "https://github.com/gmugu/dsh-drop-to-path.git"
   },
   "bugs": {
-    "url": "https://github.com/wakeup595626-cmyk/dsh-drop-to-path/issues"
+    "url": "https://github.com/gmugu/dsh-drop-to-path/issues"
   },
-  "author": "wakeUp595626-cmyk"
+  "author": "gmugu"
 }

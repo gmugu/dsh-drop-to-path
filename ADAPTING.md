@@ -45,7 +45,7 @@
 | 拖图发送后消息为空/无反应 | `session.prompt` 返回失败被 composer catch | 看会话消息流与 F12 | 核对 `session.prompt(content, mode)` 签名;确认 `mode`(queue/steer)仍存在 |
 | 上传报 500 `cannot read workspace registry` | `workspace.json` 格式或路径变化 | 打开 `$DSH_HOME/storages/workspace.json` 目视核对 | 更新 `workspaceRoot()` 解析逻辑;必要时改用 `workspaceRegistry` 服务注入 |
 | 图片保存成功但 agent 说找不到文件 | 工作区定位到了错误的目录(如服务器 cwd) | 看上传返回的 path | 确认 `workspaceRoot()` 返回的是**会话工作区**(与 `dsh-workspace` 记录的 path 一致) |
-| 插件完全无效果且无日志 | client bundle 未被宿主发现 | 重启后页面源码 `window.__DSH_BOOT__.entries` 是否含 `@dsh-external/dsh-drop-to-path` | 核对 `package.json` 的 `dsh.client` 声明、`exports['./client']`、`cordis.patch.yml` 挂载行 |
+| 插件完全无效果且无日志 | client bundle 未被宿主发现 | 重启后页面源码 `window.__DSH_BOOT__.entries` 是否含 `dsh-drop-to-path` | 核对 `package.json` 的 `dsh.client` 声明、`exports['./client']`、`cordis.patch.yml` 挂载行 |
 | 拖入文件后**全屏蒙版残留**、页面卡住 | `dragend` 派发未生效或 DSH 不再监听 window `dragend` | F12 Console 看 `[drop-to-path]` 日志;DSH 输入区源码里找蒙版重置逻辑 | 更新 `client.js` 的蒙版关闭方式(当前:派发合成 `DragEvent('dragend')`) |
 | 方块标签出现在错误位置/与图片不并排 | 附件栏类名后缀变化(`_attachments`)或 flex CSS 覆盖失效 | F12 检查 `[class*="_attachments"]` 是否存在及其 display | 更新 `findRail()` 选择器与注入的 CSS |
 | 方块尺寸与图片缩略图不一致 | 缩略图选择器 `img[src^="blob:"]` 失效或尺寸测量逻辑变化 | F12 看缩略图是否仍为 blob URL | 更新 `thumbnailSize()` |
@@ -74,4 +74,4 @@
 
 - 数据目录:`D:\DeepSeekHarness\dsh-home`(`C:\Users\<user>\.dsh` 是 junction 指向它);
 - 服务器进程:`dsh web --host 127.0.0.1 --port 8099`,日志:`D:\DeepSeekHarness\dsh.log`;
-- 插件安装形态:profile 的 `package.json` 用 `link:` 依赖 + `node_modules/@dsh-external/dsh-drop-to-path` 为**目录拷贝**(pnpm 跨盘 link 退化为拷贝)——更新源码后需重新拷贝(见 README 安装方式二第 3 步)。
+- 插件安装形态:profile 的 `package.json` 用 `link:` 依赖 + `node_modules/dsh-drop-to-path` 为**目录拷贝**(pnpm 跨盘 link 退化为拷贝)——更新源码后需重新拷贝(见 README 安装方式二第 3 步)。

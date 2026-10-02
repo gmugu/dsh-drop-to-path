@@ -2,13 +2,13 @@
 
 [English](CONTRIBUTING.md) | 中文
 
-感谢你有兴趣为 `@dsh-external/dsh-drop-to-path` 贡献代码！
+感谢你有兴趣为 `dsh-drop-to-path` 贡献代码！
 
 这是一个由单人维护的小型插件，欢迎任何规模的贡献报告 bug 和修正文档，与提交代码同样有价值。
 
 ## 可以怎么贡献
 
-- **报告问题** — 在 [GitHub Issues](https://github.com/wakeup595626-cmyk/dsh-drop-to-path/issues) 提交，请附上你的 DeepSeek Harness 版本、复现步骤，以及你期望的结果。
+- **报告问题** — 在 [GitHub Issues](https://github.com/gmugu/dsh-drop-to-path/issues) 提交，请附上你的 DeepSeek Harness 版本、复现步骤，以及你期望的结果。
 - **提出需求** — 欢迎描述你想解决的问题，而不只是你设想的方案。
 - **改进文档** — README 同时提供英文与中文两份，任何一侧的修正都欢迎。
 - **提交 PR** — 见下文。
@@ -16,7 +16,7 @@
 ## 本地开发
 
 ```sh
-git clone https://github.com/wakeup595626-cmyk/dsh-drop-to-path.git
+git clone https://github.com/gmugu/dsh-drop-to-path.git
 cd dsh-drop-to-path
 ```
 

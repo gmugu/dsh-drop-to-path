@@ -1,4 +1,4 @@
-# @dsh-external/dsh-drop-to-path
+# dsh-drop-to-path
 
 English | [中文](README.zh.md)
 
@@ -13,7 +13,7 @@ Drop or paste images, PDFs, office documents, archives, video or audio into the 
 ## Install
 
 ```sh
-dsh plugin --profile web add github:wakeup595626-cmyk/dsh-drop-to-path
+dsh plugin --profile web add github:gmugu/dsh-drop-to-path
 ```
 
 ## Usage
@@ -35,7 +35,7 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Community and support
 
-- Report bugs and ask questions through [GitHub Issues](https://github.com/wakeup595626-cmyk/dsh-drop-to-path/issues).
+- Report bugs and ask questions through [GitHub Issues](https://github.com/gmugu/dsh-drop-to-path/issues).
 - Add the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic to your own plugin repository for discoverability.
 - Browse the wider ecosystem at [awesome-dsh-plugin.com](https://awesome-dsh-plugin.com).
 
@@ -48,10 +48,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ```bibtex
 @misc{dsh-drop-to-path,
   title={dsh-drop-to-path},
-  author={wakeUp595626-cmyk},
+  author={gmugu},
   year={2026},
   publisher={GitHub},
-  howpublished={\url{https://github.com/wakeup595626-cmyk/dsh-drop-to-path}},
+  howpublished={\url{https://github.com/gmugu/dsh-drop-to-path}},
 }
 ```
 

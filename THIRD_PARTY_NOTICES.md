@@ -16,4 +16,4 @@ This plugin targets [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-h
 
 ## Reporting
 
-If you believe a third-party notice is missing or incomplete, please open an [issue](https://github.com/wakeup595626-cmyk/dsh-drop-to-path/issues).
+If you believe a third-party notice is missing or incomplete, please open an [issue](https://github.com/gmugu/dsh-drop-to-path/issues).

@@ -2,13 +2,13 @@
 
 English | [中文](CONTRIBUTING.zh.md)
 
-Thank you for your interest in contributing to `@dsh-external/dsh-drop-to-path`!
+Thank you for your interest in contributing to `dsh-drop-to-path`!
 
 This is a small, single-maintainer plugin. Contributions of every size are welcome — bug reports and documentation fixes are just as valuable as code.
 
 ## Ways to contribute
 
-- **Report a bug** — open a [GitHub Issue](https://github.com/wakeup595626-cmyk/dsh-drop-to-path/issues) and include your DeepSeek Harness version, the steps to reproduce, and what you expected to happen.
+- **Report a bug** — open a [GitHub Issue](https://github.com/gmugu/dsh-drop-to-path/issues) and include your DeepSeek Harness version, the steps to reproduce, and what you expected to happen.
 - **Request a feature** — open an issue describing the problem you want solved rather than only the solution you have in mind.
 - **Improve the docs** — the README exists in both English and Chinese; corrections to either side are appreciated.
 - **Send a pull request** — see below.
@@ -16,7 +16,7 @@ This is a small, single-maintainer plugin. Contributions of every size are welco
 ## Development
 
 ```sh
-git clone https://github.com/wakeup595626-cmyk/dsh-drop-to-path.git
+git clone https://github.com/gmugu/dsh-drop-to-path.git
 cd dsh-drop-to-path
 ```
 

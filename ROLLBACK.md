@@ -14,11 +14,11 @@
 1. `dev_uninject_plugin` match=`dsh-drop-to-path`
    - 卸载 host fiber：HTTP 路由 `/_dsh/drop-to-path/import` 注销
    - 卸载 client fiber：paste/drop 监听、sendSession 包装、方块栏全部移除
-   - 删除 profile junction `profiles/web/node_modules/@dsh-external/dsh-drop-to-path`
+   - 删除 profile junction `profiles/web/node_modules/dsh-drop-to-path`
    - 写 profile patch `disabled` 条目（阻断自装配）
 2. **清理永久装配写入**（uninject 不管这两行，需手动）：
-   - `profiles/web/package.json` → `dependencies` 删除 `"@dsh-external/dsh-drop-to-path": "link:..."`
-   - 同文件 → `dsh.profile.bundles` 数组删除 `"@dsh-external/dsh-drop-to-path"`
+   - `profiles/web/package.json` → `dependencies` 删除 `"dsh-drop-to-path": "link:..."`
+   - 同文件 → `dsh.profile.bundles` 数组删除 `"dsh-drop-to-path"`
 3. （可选）删除插件源目录 `C:\Users\25653\.dsh\external\dsh-drop-to-path`
 4. （可选）删除已上传文件 `<工作区>\.drops\`
 

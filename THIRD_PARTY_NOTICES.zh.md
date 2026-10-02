@@ -16,4 +16,4 @@
 
 ## 反馈
 
-如果你认为某条第三方声明缺失或不完整，欢迎提交 [issue](https://github.com/wakeup595626-cmyk/dsh-drop-to-path/issues)。
+如果你认为某条第三方声明缺失或不完整，欢迎提交 [issue](https://github.com/gmugu/dsh-drop-to-path/issues)。
