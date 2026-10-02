@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-10-02
+
+**适配当前 DSH 客户端附件 API（0.2.0-rc.x）并加入多模态识别**。v0.2.6 的 `sendSession` 包装基于已移除的 `draftImages()` API,在当前 DSH 上对每次带图发送都静默回退原生路径,纯文本模型重新被 `MODEL_DOES_NOT_SUPPORT_IMAGES` 拒绝。
+
+### Fixed
+
+- **带图发送再次被拒（核心）**：包装器重写为当前签名 `sendSession(session, text, attachmentIds, mode, signal)`;草稿经 `resolveDraftAttachments()` 解析、成功后 `releaseDraftAttachment(s)()` 释放;转换后的消息通过**原生 sendSession** 发送（本地回显/host 准入/附件退休全部保留）;
+- **服务惰性解析**：当前 DSH 在应用服务挂载前加载本模块,apply 时捕获的服务句柄恒为空——改为 drop/发送时经 liveCtx 现取;
+- **工作区解析**：`sessions.list` 已不存在,新增 `retainInfo` 探测,失败回退 host 注册表扫描。
+
+### Added
+
+- **多模态识别**：转换前先问 host（`GET /_dsh/drop-to-path/import?modalities=1`,host 侧经 `llm.resolveModelInfo`,与 prompt 准入同一规则）当前模型是否接受图片输入;判定链与准入逐字一致：会话选择器当前模型 → 上次使用 → 部署默认模型（`remote.session.modelCatalog().default`）。多模态模型原生直传,纯文本模型才转路径;任何探测失败兜底转路径（消息永远发得出去）。结果按 provider/model 缓存,`model-check` beacon 记录 provider/model/source;
+- 正常流程保持静默,提示条只在真正失败时出现。
+
 ### Fixed
 
 - **pnpm 安装告警**:将 `@deepseek-ai/cordis` 声明为可选 peer(`peerDependenciesMeta`),消除 DSH profile 安装( `autoInstallPeers: false` )下的 missing peer 告警——感谢 [@SPYQWER1](https://github.com/SPYQWER1) 的 [PR #4](https://github.com/loudMore/dsh-drop-to-path/pull/4)(见 [issue #3](https://github.com/loudMore/dsh-drop-to-path/issues/3))。

@@ -65,6 +65,7 @@
 | 1 | 2026-08-14 | 0.1.0-rc.6 | 初版。注:本环境同时给 `dsh-vision-toolkit` v0.1.2 打过 `httpServer` → `webServer` 补丁(其 `lib/web.js` 与 `src/web.ts`);若该插件也失效,检查此补丁是否被覆盖 |
 | 2 | 2026-08-14 | 0.1.0-rc.6 | 合并 PR #2(感谢 @SPYQWER1):`workspaceRoot()` 增加 `~/.dsh` 回退(不再强制 DSH_HOME);导入路由接受可选 `workspace` 字段(仅绝对路径受信任,否则回退注册表扫描);client 通过 `sessions` 服务解析活动会话 cwd 并随上传携带 |
 | 3 | 2026-08-14 | 0.1.0-rc.6 | 合并 PR #4(感谢 @SPYQWER1):`peerDependenciesMeta` 将 `@deepseek-ai/cordis` 标记为 optional peer,消除 DSH profile(`autoInstallPeers: false`)安装时的 missing peer 告警;运行时无变化 |
+| 4 | 2026-10-02 | 0.2.0-rc.2 | **大版本适配 + 多模态识别**(0.3.0–0.3.3):① `sendSession` 签名变为 `(session, text, attachmentIds, mode, signal)`,`draftImages`/`releaseDraftImages` 已删除,改用 `resolveDraftAttachments()`/`releaseDraftAttachment(s)()`;旧包装因此对每次带图发送都回退原生路径,纯文本模型重新被拒。② 转换后的消息改经**原生 sendSession** 发送(`beginSubmission`/本地回显/附件退休全保留),不再直接调 `session.prompt`。③ 新增多模态识别:client 以 `modelSelection` projection(→ 默认 `remote.session.modelCatalog().default`)解析当前模型,host 新增 `GET ?modalities=1&provider=&model=`(经 `llm.resolveModelInfo`,与 prompt 准入同规则)回答;多模态直传、纯文本转路径、失败兜底转路径,结果按模型缓存,`model-check` beacon 记录判定。④ 服务惰性解析(liveCtx):当前 DSH 在应用服务挂载前加载本模块。⑤ `sessions.list` 已不存在,工作区解析改 `retainInfo` 探测 + host 注册表回退。 |
 
 ## 5. 本机环境备注(调试用)
 
