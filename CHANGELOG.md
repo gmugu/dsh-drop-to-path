@@ -4,6 +4,23 @@
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-10-02
+
+**转换路径升级为显式文件引用（@ 语法）**。与 `dsh-file-reference` 的共享 `@file` 语法及 agent 指令（「@ 前缀的 token 是用户显式引用的路径」）对齐,转换后的路径不再以裸字符串送达模型。
+
+### Added
+
+- **@ 引用 token**：图片转换、文件 chips、文件夹 chips 的路径统一格式化为 `@D:\ws\...\.drops\xxx.png`;含空格路径采用 `@"..."` 引号形态;文件夹 chip 追加目录标记 `/`（同语法「尾斜杠标记目录」）。多模态模型直传图片时,同消息携带的文件 chips 同样升级。
+
+## [0.3.4] - 2026-10-02
+
+**修复全新会话下多模态模型被错当纯文本**。此前只要用户没碰过模型/档位选择器（全新会话停在默认档），`modelSelection` projection 的 `next`/`lastUsed` 均为空,判定链落到部署默认模型兜底——而 `catalogDefault()` 直接在 `remote.session.modelCatalog()` 的 **Remote 响应包装** `{ ok, value }` 上读 `.default`,恒为 undefined → `unresolved` → 多模态模型(如 glm-5.3-flash)的图片被错转成纯文本路径。一旦用户碰过选择器(比如切档位到 max),`next` 被填上、判定走 `selection` 臂成功——这正是「default 被当纯文本、切 max 才识别」的假象来源。多模态能力与思考档位无关。
+
+### Fixed
+
+- **catalogDefault 解包（核心）**：先解出 `response.value` 再读 `.default`（兼容裸目录对象）；全新会话、默认档、默认模型现在都能正确判定,多模态模型原生直传;
+- `sessionModelSelection` 顺带读取 `reasoningEffort`,`model-check` beacon 增加 `effort` 字段（纯诊断用途,不影响判定）。
+
 ## [0.3.3] - 2026-10-02
 
 **适配当前 DSH 客户端附件 API（0.2.0-rc.x）并加入多模态识别**。v0.2.6 的 `sendSession` 包装基于已移除的 `draftImages()` API,在当前 DSH 上对每次带图发送都静默回退原生路径,纯文本模型重新被 `MODEL_DOES_NOT_SUPPORT_IMAGES` 拒绝。
