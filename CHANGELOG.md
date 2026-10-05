@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-10-05
+
+**按 DSH 插件规范补全发布元数据**（发布至 GitHub 的可安装组合包）。依据 `dsh-agent-preset` 的 `cordis-plugin-development` 技能（`references/host-plugin.md`、`references/ui-plugin.md`）与 `@deepseek-ai/dsh-package-manifest` 类型声明。
+
+### Added
+
+- **locale 展示元数据**：新增 `locale/en.json` 与 `locale/zh.json`（`meta.title`/`meta.description`）——Plugin Manager 卡片、组合包详情、组件行与设置页在**不激活插件**的情况下读取;`exports` 增加 `./locale/*.json`,`files` 纳入 `locale/*.json`;
+- **manifest 声明**：`dsh.manifestVersion: 1`（格式标识,声明性）;
+- **兼容性声明**：`engines.dsh: ">=0.2.0-rc.2"`（当前适配的客户端附件 API 自该版本起;声明性,安装器与加载器当前不强制）;
+- icon 按需求跳过——规范允许缺省,面板回退默认插画。
+
+### Fixed
+
+- **发布包不再携带运行时日志**：npm 的 `files` 白名单优先级高于 `.npmignore`,整目录 `"lib"` 会把 `lib/.beacon.log`（159.7kB,含模型名/工作区路径等诊断信息）打进 tarball;改为显式四文件清单（index.js/client.js/两个 ps1）,`npm pack --dry-run` 复核 12 文件、33.8kB、零运行时产物。
+
 ## [0.3.6] - 2026-10-02
 
 **审计第一批修复：路由安全加固 + 发送路径数据丢失 + fetch 超时**（两轮审计合并后按用户选定范围执行）。
