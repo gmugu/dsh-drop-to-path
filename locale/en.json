@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Drop to Path",
-    "description": "Turn dropped or pasted files into workspace file paths for DeepSeek Harness, so text-only models can read them as @ file references."
+    "description": "Convert draft images to workspace @-file paths only when the current model is text-only; everything else passes through natively."
   }
 }

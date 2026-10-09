@@ -2,12 +2,13 @@
 
 [English](README.md) | 中文
 
-一个 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 插件：把拖入或粘贴的文件转成**工作区文件路径**，让纯文本模型也能读取其内容。
+一个 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 插件：**仅当当前模型是纯文本时**，才把草稿图片转成**工作区文件路径**；其余情况一律放行原生。
 
-把图片、PDF、Office 文档、压缩包、视频或音频拖入输入框（或直接粘贴）。插件会把每个文件写入当前会话工作区的 `.drops/` 目录，并重写待发送的消息，让模型拿到**绝对路径**而不是二进制附件。
+把图片、PDF、Office 文档、压缩包、视频或音频拖入输入框（或直接粘贴），DSH 照常原生建草稿。发送时插件按 prompt 准入同款判定链检查当前模型是否接受图片：纯文本模型的每张草稿图片会上传到 `.drops/` 并改写为模型可读取的 `@` 引用**绝对路径**；多模态模型收到真图，非图片文件永远不被碰。
 
-- **图片**保留原生附件体验（缩略图、预览、移除）。发送时，每张草稿图片会先上传到 host，再替换为其工作区路径。
-- **其余类型**（文档、音视频、压缩包）在附件栏显示为方形 chip，同样以路径形式交给模型。
+- **图片 + 纯文本模型** — 发送时上传，替换为 `@<workspace>/.drops/xxx.png` 引用 token。
+- **其余一切** — 原生：多模态图片走真实附件，文档走 DSH 自己的文件管道。
+- **文件夹** — 递归上传到 `.drops/<batch>/`，附件栏一枚 📁 chip（无原生文件夹管道）。
 - host 侧只注册一条精确路由 `POST /_dsh/drop-to-path/import`，负责解码与落盘。
 
 ## 安装
@@ -20,7 +21,7 @@ dsh plugin --profile web add github:gmugu/dsh-drop-to-path
 
 1. 把文件拖到输入框上，或从剪贴板直接粘贴图片。
 2. 正常写提示词并发送。
-3. 模型收到的是工作区文件路径，例如 `<workspace>/.drops/report.pdf`。
+3. 纯文本模型：消息携带 `<workspace>/.drops/xxx.png` 这样的路径。多模态模型：附件原样发出。
 
 ## 环境要求
 

@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-09
+
+**行为收敛：只保留"纯文本模型 × 图片"的转路径，其余一律放行原生**。当前 DSH 作曲器已原生支持图片与文档双草稿管道,插件不再拦截散文件。
+
+### Changed
+
+- **散文件拖入/粘贴不再拦截**（PDF/Office/压缩包/音视频/混合一律放行）——DSH 原生建草稿;原"文件 chips"机制仅保留给无原生通路的场景;
+- **剪贴板救援路径改走原生优先**：直读(Ctrl+V 无 paste 事件)与 host 位图提取(CF_BITMAP)得到的图片,先以合成纯图 drop 送原生附件栏(发送时按模型判定);仅当合成 drop 失败才落路径 chip 兜底,图片不再必然变路径;
+- README(中英)、package.json description、locale 展示元数据同步改写。
+
+### Unchanged
+
+- **核心不变**：发送时判定当前模型(选择器 → 上次使用 → 部署默认,与 prompt 准入同链),纯文本模型把草稿图片上传 `.drops/` 并以 `@` 引用 token 改写消息;多模态模型原生直传;
+- **文件夹拖入/粘贴保留**：目录条目无原生管道,仍递归上传 + 📁 chip + 根路径随行。
+
 ## [0.3.7] - 2026-10-05
 
 **按 DSH 插件规范补全发布元数据**（发布至 GitHub 的可安装组合包）。依据 `dsh-agent-preset` 的 `cordis-plugin-development` 技能（`references/host-plugin.md`、`references/ui-plugin.md`）与 `@deepseek-ai/dsh-package-manifest` 类型声明。

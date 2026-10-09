@@ -2,12 +2,13 @@
 
 English | [中文](README.zh.md)
 
-A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin that turns dropped or pasted files into **workspace file paths**, so a text-only model can reach their contents.
+A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin that turns draft images into **workspace file paths** — but only when the current model is text-only. Everything else passes through untouched.
 
-Drop or paste images, PDFs, office documents, archives, video or audio into the composer. The plugin writes each file into the `.drops/` directory of the active session workspace, then rewrites the outgoing message so the model receives the resulting **absolute paths** instead of a binary attachment.
+Drop or paste images, PDFs, office documents, archives, video or audio into the composer and DSH drafts them natively, as always. At submit time the plugin checks whether the session's current model accepts image input (the exact chain prompt admission uses). A text-only model gets every draft image uploaded to `.drops/` and rewritten as an `@`-referenced **absolute path** the agent can read with its file tools; a multimodal model gets the real picture, and non-image files are never touched.
 
-- **Images** keep the native attachment experience (thumbnail, preview, remove). On submit, every draft image is uploaded to the host and replaced by its workspace path.
-- **Everything else** — documents, media, archives — appears as a square chip in the attachment rail and is delivered as a path as well.
+- **Images, text-only model** — uploaded at submit and replaced by `@<workspace>/.drops/xxx.png` reference tokens.
+- **Everything else** — native: multimodal images go as real attachments, documents go through DSH's own file pipeline.
+- **Folders** — recursive upload under `.drops/<batch>/` with one 📁 chip (no native folder pipeline exists).
 - The host side registers a single exact route, `POST /_dsh/drop-to-path/import`, and performs the decode-and-write.
 
 ## Install
@@ -20,7 +21,7 @@ dsh plugin --profile web add github:gmugu/dsh-drop-to-path
 
 1. Drag files onto the composer, or paste an image from the clipboard.
 2. Write your prompt and send it as usual.
-3. The model receives workspace file paths such as `<workspace>/.drops/report.pdf`.
+3. Text-only model: the message carries workspace paths such as `<workspace>/.drops/xxx.png`. Multimodal model: the attachments go out unchanged.
 
 ## Requirements
 

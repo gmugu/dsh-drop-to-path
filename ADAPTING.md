@@ -70,6 +70,7 @@
 | 6 | 2026-10-02 | 0.3.5 | **@ 引用 token**:`dsh-file-reference` 的共享 @file 语法——`@path` / 含空格 `@"path"`、尾斜杠标记目录——已写入 agent 指令(`FILE_REFERENCE_PROMPT`),模型侧按显式引用处理。转换输出(图片+文件+文件夹 chips)统一经 `atToken()` 格式化,文件夹 chip 补 `/` 目录标记。 |
 | 7 | 2026-10-02 | 0.3.6 | **审计第一批**（安全+数据丢失+超时）:① host 整路由前置 `requestAuthorized`(回环 Host + Origin 同源,防 DNS rebinding 与跨站 no-cors POST),POST 强制 `application/json`(415 否则),写根 `resolveRoot()` 只在注册工作区根中选择,`?file=` 限注册根 + `Cross-Origin-Resource-Policy: same-origin`,beacon 日志 512KB 截断。② client:入队统一 `trackEnqueue` 链,`sendSession` 入口有界等待(≤30s)结算再快照;成功后 `removeFilesByPaths` 只清快照路径;五处 fetch 全部 `fetchWithTimeout`(8s/5s/120s/8s/20s)。③ 新增 `test-route.mjs` 鉴权断言。 |
 | 8 | 2026-10-05 | 0.3.7 | **发布规范补全**：按 `cordis-plugin-development` 技能与 `dsh-package-manifest` 声明补 `locale/en.json`+`zh.json`(meta.title/description,免激活展示)、`dsh.manifestVersion: 1`、`engines.dsh: ">=0.2.0-rc.2"`(本机装的是 0.2.0-rc.2),exports/files 相应纳入 locale;icon 缺省(规范允许)。host 导出形态 `apply(ctx)`、bundle patch(id+name 行)、client `dsh.client`(platform/inject)与 `./client` 导出均已合规,未动。 |
+| 9 | 2026-10-09 | 0.4.0 | **行为收敛**：当前 DSH 作曲器原生支持文件草稿(`sendSession` 序列化 `type:"file"`+`receiptId`),散文件拖入/粘贴不再拦截(原 onDrop/onPaste 的 `others` 拦截分支删除,beacon 改 `drop-native`/`paste-native-files`);唯一转换 = 发送时纯文本模型的草稿图片(`modelAcceptsImages` 判定不变)。文件夹流保留(无原生管道)。剪贴板救援(直读/CF_BITMAP host 提取)改为合成纯图 drop 送原生栏,失败才落 chip——`hostClipboardFallback` 经 `?file=` 回取 PNG blob 再 `redispatchImages`。README/locale/package description 同步改写。 |
 
 ## 5. 本机环境备注(调试用)
 
