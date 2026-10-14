@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Removed
+
+- **移除本地源鉴权（`requestAuthorized`）**：整条路由不再要求回环 Host / 同源 Origin——局域网地址（如 `http://192.168.x.x:3080`）配合 login-gate 等密码门禁即可正常上传;`test-route.mjs` 同步移除鉴权断言（14 例 → 4 例）。保留的防线不变：POST 仍强制 `application/json`（跨站 `no-cors` 伪造仍过不去——该 Content-Type 强制 preflight,而本路由不答 OPTIONS/CORS）,写根仍圈定注册工作区根,`?file=` 限制与 CORP、beacon 限额照旧。注意:未装任何门禁时,该路由回到「端口可达即可写入 `.drops/`」的状态。
+
 ## [0.4.0] - 2026-10-09
 
 **行为收敛：只保留"纯文本模型 × 图片"的转路径，其余一律放行原生**。当前 DSH 作曲器已原生支持图片与文档双草稿管道,插件不再拦截散文件。
