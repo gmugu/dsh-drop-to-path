@@ -8,7 +8,7 @@
 
 - **图片 + 纯文本模型** — 发送时上传，替换为 `@<workspace>/.drops/xxx.png` 引用 token。
 - **其余一切** — 原生：多模态图片走真实附件，文档走 DSH 自己的文件管道。
-- **文件夹** — 递归上传到 `.drops/<batch>/`，附件栏一枚 📁 chip（无原生文件夹管道）。
+- **文件夹** — 桌面端交给 DSH 原生（`@目录/` 引用 chip）；Web 端递归上传到 `.drops/<batch>/`，附件栏一枚 📁 chip。
 - host 侧只注册一条精确路由 `POST /_dsh/drop-to-path/import`，负责解码与落盘。
 
 ## 安装

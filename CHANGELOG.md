@@ -8,6 +8,29 @@
 
 - **移除本地源鉴权（`requestAuthorized`）**：整条路由不再要求回环 Host / 同源 Origin——局域网地址（如 `http://192.168.x.x:3080`）配合 login-gate 等密码门禁即可正常上传;`test-route.mjs` 同步移除鉴权断言（14 例 → 4 例）。保留的防线不变：POST 仍强制 `application/json`（跨站 `no-cors` 伪造仍过不去——该 Content-Type 强制 preflight,而本路由不答 OPTIONS/CORS）,写根仍圈定注册工作区根,`?file=` 限制与 CORP、beacon 限额照旧。注意:未装任何门禁时,该路由回到「端口可达即可写入 `.drops/`」的状态。
 
+## [0.4.1] - 2026-11-06
+
+**适配 DSH 0.2.2-rc.1**：会话身份/工作区来源、图片"进框即传"、`sendSession` 新签名与原生目录能力。
+
+### Fixed
+
+- **工作区解析整体失效 → 可能写进别的工作区**：0.2.2 的 `sessions.list` 状态已无 `current` 字段，`retainInfo(id)` 只剩引用计数（无 `cwd`）。文件夹与散文件 chip 的上传因此不再携带工作区线索，host 只能回退到"最近更新的注册工作区"。现在由隐藏 dock 槽位捕获当前 `sessionId`，`currentWorkspace()` 优先读 `sessions.list.byId[id].cwd`。
+- **被拒收的图片会让消息永久发不出**：0.2.2 进框即上传，且在 `uploadsPending`（含 error 状态）时拒绝 Enter 与发送按钮，纯文本模型也再没有转换机会。新增救援：监听 `conversation.fileUploads`，对**被宿主拒收**（`status: 'error'` 且带 `reason`，DSH 判定重试也无法成功）的图片草稿重新上传到 `.drops`、生成路径 chip，并通过 composer 的 `inputActions.removeAttachment` 摘掉该草稿；可重试的普通失败仍留给 composer 自己的重试按钮。
+- **`sendSession` 第 6 参 `accept` 丢失**：新签名 `(session, text, attachmentIds, mode, signal, accept?)`，`accept` 在宿主接收的瞬间结算草稿区；包装器只声明并转发 5 参。改为全部原生分支经统一 `forward()` 完整透传。
+- **隐藏 dock 槽位从未注册**：`apply` 时 `slots` 服务尚未挂载（beacon `slots:false`），注册块被整段跳过；旧形态 `register({ …, component })` 也不符合现在的两参约定。改为延迟安装 + `register(options, Component)`。
+
+### Changed
+
+- **图片上限 30 MiB → 50 MiB**，对齐 Host 当前的 `maxImageBytes` 默认值（0.2.2 已把默认单图上限提到 50 MiB），避免 composer 收得进、插件却拒收。
+- **桌面端文件夹拖入改为放行原生**：0.2.2 的 `addFiles(files, directories)` 在 Desktop（`globalThis.__DSH_HOST_PATHS__` 存在）会把目录直接转成 `@folder/` 引用 chip；插件不再抢占这次拖放。Web GUI（无 bridge）保留原递归上传 + 📁 chip。
+- **host 工作区注册表改读公开服务** `workspaceRegistry.list()`；`$DSH_HOME/storages/workspace.json`（0.2.2 已包上 `unit`/`global` v2 信封）仅作为没有该服务时的回退。
+- **写入根保留"注册根内的子目录"**：会话运行在 git worktree（`.agents/worktrees/…`）时不再被归一化到仓库根，`.drops` 落在会话实际 cwd 下。
+
+### Added
+
+- `test-workspace.mjs`：路由级回归（注册服务优先、越界回退、worktree 子目录、无提示回退、415、v2 信封回退）。
+- `test-client.mjs`：客户端回归（`accept` 透传、纯文本模型转换、工作区提示来源、上传失败救援）。
+
 ## [0.4.0] - 2026-10-09
 
 **行为收敛：只保留"纯文本模型 × 图片"的转路径，其余一律放行原生**。当前 DSH 作曲器已原生支持图片与文档双草稿管道,插件不再拦截散文件。

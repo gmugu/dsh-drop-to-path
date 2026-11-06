@@ -8,7 +8,7 @@ Drop or paste images, PDFs, office documents, archives, video or audio into the 
 
 - **Images, text-only model** — uploaded at submit and replaced by `@<workspace>/.drops/xxx.png` reference tokens.
 - **Everything else** — native: multimodal images go as real attachments, documents go through DSH's own file pipeline.
-- **Folders** — recursive upload under `.drops/<batch>/` with one 📁 chip (no native folder pipeline exists).
+- **Folders** — the Desktop shell drafts them natively as an `@folder/` reference chip; in the Web GUI they are uploaded recursively under `.drops/<batch>/` with one 📁 chip.
 - The host side registers a single exact route, `POST /_dsh/drop-to-path/import`, and performs the decode-and-write.
 
 ## Install
