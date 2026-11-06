@@ -32,8 +32,6 @@ dsh plugin --profile web add github:gmugu/dsh-drop-to-path
 
 This plugin has no third-party runtime dependencies. Everything it does is implemented against the DeepSeek Harness host and client APIs.
 
-See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
 ## Community and support
 
 - Report bugs and ask questions through [GitHub Issues](https://github.com/gmugu/dsh-drop-to-path/issues).

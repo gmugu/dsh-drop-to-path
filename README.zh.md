@@ -32,8 +32,6 @@ dsh plugin --profile web add github:gmugu/dsh-drop-to-path
 
 本插件没有任何第三方运行时依赖，全部实现基于 DeepSeek Harness 的 host 与 client API。
 
-See [THIRD_PARTY_NOTICES.zh.md](THIRD_PARTY_NOTICES.zh.md).
-
 ## 社区与支持
 
 - Report bugs and ask questions through [GitHub Issues](https://github.com/gmugu/dsh-drop-to-path/issues).
